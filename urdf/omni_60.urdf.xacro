@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:macro name="omni_60" params="parent name='omni_60' *origin">
+    <link name="${name}_base_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://occam_ros/meshes/omni_60.stl" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 -${pi/2}" />
+        <material name="navy">
+          <color rgba="0.1 0.1 0.7 1" />
+        </material>
+      </visual>
+      <!-- For simplicity, treat the collision model as a cylinder -->
+      <collision>
+        <geometry>
+          <cylinder radius="0.05225" length="0.0535" />
+        </geometry>
+        <origin xyz="0 0 ${0.0535/2}" rpy="0 0 0" />
+      </collision>
+    </link>
+    <joint name="${name}_base_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="${name}_base_link" />
+      <xacro:insert_block name="origin" />
+    </joint>
+
+    <include filename="$(find occam_ros)/urdf/include/omni_sub_camera.urdf.xacro" />
+    <xacro:omni_sub_camera prefix="${name}_camera0" parent="${name}_base_link">
+      <origin xyz="0 0 0.026" rpy="0 0 0" />
+    </xacro:omni_sub_camera>
+    <xacro:omni_sub_camera prefix="${name}_camera1" parent="${name}_base_link">
+      <origin xyz="0 0 0.026" rpy="0 0 -${2*pi/5}" />
+    </xacro:omni_sub_camera>
+    <xacro:omni_sub_camera prefix="${name}_camera2" parent="${name}_base_link">
+      <origin xyz="0 0 0.026" rpy="0 0 -${4*pi/5}" />
+    </xacro:omni_sub_camera>
+    <xacro:omni_sub_camera prefix="${name}_camera3" parent="${name}_base_link">
+      <origin xyz="0 0 0.026" rpy="0 0 ${4*pi/5}" />
+    </xacro:omni_sub_camera>
+    <xacro:omni_sub_camera prefix="${name}_camera4" parent="${name}_base_link">
+      <origin xyz="0 0 0.026" rpy="0 0 ${2*pi/5}" />
+    </xacro:omni_sub_camera>
+  </xacro:macro>
+</robot>

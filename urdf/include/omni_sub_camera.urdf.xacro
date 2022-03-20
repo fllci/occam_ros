@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <!--
+    This file contains the internal links for each individual camera lens
+    within the Omni 60.
+  -->
+  <xacro:macro name="omni_sub_camera" params="prefix parent *origin">
+    <link name="${prefix}_internal_link" />
+    <link name="${prefix}_link" />
+
+    <joint name="${prefix}_internal_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="${prefix}_internal_link" />
+      <xacro:insert_block name="origin" />
+    </joint>
+
+    <joint name="${prefix}_camera_joint" type="fixed">
+      <parent link="${prefix}_internal_link" />
+      <child link="${prefix}_link" />
+      <origin xyz="0.05225 0 0" rpy="0 0 0" />
+    </joint>
+  </xacro:macro>
+</robot>
